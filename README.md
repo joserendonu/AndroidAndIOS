@@ -228,3 +228,6 @@ code
 Bash
 ionic serve
 
+
+Para ejecutar la base de datos localmente:
+firebase emulators:start
