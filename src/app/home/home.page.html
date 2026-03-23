@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Tareas</ion-title>
+    <ion-toolbar>
+
+      <!-- <ion-button fill="clear" routerLink="/">
+        📋 Tareas
+      </ion-button> -->
+
+      <ion-button fill="clear" routerLink="/categories">
+        📂 Categorías
+      </ion-button>
+
+      <ion-title>Mis Tareas</ion-title>
+
+    </ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Botón agregar -->
+  <ion-button expand="block" (click)="openAddModal()">
+    ➕ Agregar Tarea
+  </ion-button>
+
+  <!-- ===================== -->
+  <!-- 📝 TAREAS PENDIENTES -->
+  <!-- ===================== -->
+
+  <h2>📝 Pendientes</h2>
+
+  <ng-container *ngFor="let cat of categories">
+
+    <h3>📂 {{ cat.name }}</h3>
+
+    <ion-list>
+      <ng-container *ngFor="let task of tasks">
+        <ion-item *ngIf="task.categoryId === cat.id && !task.completed">
+
+          <ion-label>
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.description }}</p>
+          </ion-label>
+
+          <ion-button fill="clear" color="success" (click)="toggleTask(task)">
+            ✔
+          </ion-button>
+
+          <ion-button color="danger" fill="clear" (click)="deleteTask(task.id!)">
+            🗑
+          </ion-button>
+
+        </ion-item>
+      </ng-container>
+    </ion-list>
+
+  </ng-container>
+  <!-- ===================== -->
+  <!-- ✅ TAREAS COMPLETADAS -->
+  <!-- ===================== -->
+
+  <h2>✅ Completadas</h2>
+
+  <ion-list>
+    <ng-container *ngFor="let task of tasks">
+      <ion-item *ngIf="task.completed" class="task-done">
+
+        <ion-label>
+          <h3 class="line-through">{{ task.title }}</h3>
+          <p class="line-through">{{ task.description }}</p>
+        </ion-label>
+
+        <ion-badge color="medium">
+          ✔
+        </ion-badge>
+
+        <!-- Desmarcar -->
+        <ion-button fill="clear" color="medium" (click)="toggleTask(task)">
+          ↩
+        </ion-button>
+
+        <!-- Eliminar -->
+        <ion-button color="danger" fill="clear" (click)="deleteTask(task.id!)">
+          🗑
+        </ion-button>
+
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+</ion-content>

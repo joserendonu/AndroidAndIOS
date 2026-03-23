@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- BOTÓN VOLVER -->
+    <ion-button fill="clear" routerLink="/home">
+      ⬅ Tareas
+    </ion-button>
+
+    <ion-title>Categorías</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+
+  <ion-button expand="block" (click)="addCategory()">
+    ➕ Nueva Categoría
+  </ion-button>
+
+  <ion-list>
+    <ion-item *ngFor="let cat of categories">
+      <ion-label>{{ cat.name }}</ion-label>
+
+      <ion-button color="danger" fill="clear" (click)="deleteCategory(cat.id!)">
+        🗑
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
