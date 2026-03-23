@@ -231,3 +231,20 @@ ionic serve
 
 Para ejecutar la base de datos localmente:
 firebase emulators:start
+
+
+VOY EN ESTE PASO:
+•            Configurar la aplicación para ser compilada en Android e iOS usando Cordova.
+En el chatGPT de mi correo principal
+
+Construir tu app Angular
+
+Primero compila tu app:
+
+ionic build
+
+PARA SINCRONIZAR CAMBIOS CON ANDROID
+
+Cada vez que hagas cambios:
+
+ionic cap sync
