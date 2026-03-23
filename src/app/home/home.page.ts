@@ -18,6 +18,7 @@ import {
 import { Todo } from '../services/todo';
 import { Task } from '../models/task.model';
 import { AlertController } from '@ionic/angular';
+import { RemoteConfigService } from '../services/remote-config.service';
 
 @Component({
   selector: 'app-home',
@@ -41,15 +42,18 @@ import { AlertController } from '@ionic/angular';
 export class HomePage implements OnInit {
   categories: Category[] = [];
   tasks: Task[] = [];
+  enableCategories = true;
+
 
   constructor(private todoService: Todo, private alertCtrl: AlertController,
-    private categoryService: CategoryService) { }
+    private categoryService: CategoryService, private remoteConfigService: RemoteConfigService) { }
 
   ngOnInit() {
+    this.enableCategories = this.remoteConfigService.getBoolean('enable_categories');
+    console.log("******************************");
+    console.log('FLAG:', this.enableCategories);
+    console.log(this.remoteConfigService.getBoolean('enable_categories'));
     this.todoService.getTasks().subscribe(res => {
-      console.log("******************************");
-      console.log(this.tasks);
-      console.log(this.categories);
       this.tasks = res;
     });
 

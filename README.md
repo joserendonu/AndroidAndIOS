@@ -248,3 +248,6 @@ PARA SINCRONIZAR CAMBIOS CON ANDROID
 Cada vez que hagas cambios:
 
 ionic cap sync
+
+PARA FIREBASE CON FEATURE CONFIG
+npm install firebase
