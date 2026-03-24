@@ -23,6 +23,8 @@ bootstrapApplication(AppComponent, {
       // 👇 CONDICIÓN
       if (location.hostname === 'localhost') {
         connectFirestoreEmulator(firestore, 'localhost', 8080);
+      }else{
+        connectFirestoreEmulator(firestore, '10.10.1.255', 8080);
       }
 
       return firestore;
