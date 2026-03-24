@@ -90,67 +90,46 @@ export class HomePage implements OnInit {
       default: return 'medium';
     }
   }
-  async selectCategory(data: any) {
-
-    const alert = await this.alertCtrl.create({
-      header: 'Selecciona Categoría',
-
-      inputs: this.categories.map(cat => ({
-        name: 'category',
-        type: 'radio',
-        label: cat.name,
-        value: cat.id
-      })),
-
-      buttons: [
-        {
-          text: 'Guardar',
-          handler: (categoryId) => {
-
-            // 🔥 VALIDACIÓN
-            if (!categoryId) {
-              console.log('No seleccionó categoría');
-              return false;
-            }
-
-            // ✅ CREAR TAREA
-            this.todoService.addTask({
-              title: data.title,
-              description: data.description,
-              categoryId: categoryId, // 👈 CLAVE
-              completed: false,
-              createdAt: Date.now(),
-              priority: 'urgente',
-              status: 'pendientes'
-            });
-
-            return true;
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
   async openAddModal() {
-    const alert = await this.alertCtrl.create({
-      header: 'Nueva Tarea',
-      inputs: [
-        { name: 'title', type: 'text', placeholder: 'Título' },
-        { name: 'description', type: 'text', placeholder: 'Descripción' },
-      ],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Siguiente',
-          handler: (data) => this.selectCategory(data) // 👈 CAMBIO
-        }
-      ]
-    });
-    await alert.present();
-  }
 
+    const title = prompt('Título de la tarea');
+    if (!title) return;
+
+    const description = prompt('Descripción de la tarea');
+    if (!description) return;
+
+    // 🔥 Mostrar categorías en texto
+    const categoryList = this.categories
+      .map((cat, index) => `${index + 1}. ${cat.name}`)
+      .join('\n');
+
+    const selected = prompt(`Selecciona categoría:\n${categoryList}`);
+
+    if (!selected) return;
+
+    const index = parseInt(selected) - 1;
+
+    // 🔥 Validar índice
+    if (isNaN(index) || !this.categories[index]) {
+      console.log('Categoría inválida');
+      return;
+    }
+
+    const categoryId = this.categories[index].id;
+
+    // ✅ CREAR TAREA
+    this.todoService.addTask({
+      title,
+      description,
+      categoryId,
+      completed: false,
+      createdAt: Date.now(),
+      priority: 'urgente',
+      status: 'pendientes'
+    });
+
+    console.log('Tarea creada correctamente');
+  }
 
 
   async selectPriority(data: any) {
