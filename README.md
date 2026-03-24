@@ -251,3 +251,105 @@ ionic cap sync
 
 PARA FIREBASE CON FEATURE CONFIG
 npm install firebase
+
+Para las técnicas de optimización y rendimiento se intentó en muchos casos usar recursividad antes que ciclos for o while, se usaron componentes.
+Para el manejo de la base de datos se usó córdova por requerimientos de la prueba pero se pensó en usar capacitor por mejor compatibilidad con 
+mas versiones de java y otras tecnologías usadas en el proyecto.
+
+PARA SINCRONIZAR EL PROYECTO CON EL APK GENERADO:
+ionic build
+cordova prepare android
+cordova build android
+
+
+
+
+VOY EN ESTOS PASOS PARA LA APK
+🧠 2. FIRESTORE DEBE ESTAR ACTIVO
+
+En Firebase Console:
+
+👉 Firestore Database
+👉 Debe estar creado ✔
+
+Modo prueba:
+
+👉 rules temporales:
+
+allow read, write: if true;
+🧠 3. REGLAS DE SEGURIDAD (MUY IMPORTANTE)
+
+Si tienes esto:
+
+allow read, write: if request.auth != null;
+
+👉 En el celular NO tienes login → TODO falla ❌
+
+✅ PARA PROBAR (temporal)
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+
+👉 Luego: Publish
+
+🧠 4. INTERNET EN ANDROID (CLAVE 🔥)
+📁 AndroidManifest.xml
+
+Ruta:
+
+platforms/android/app/src/main/AndroidManifest.xml
+🔧 Debe tener esto:
+<uses-permission android:name="android.permission.INTERNET" />
+
+👉 Si no está → NO conecta ❌
+
+🧠 5. SI USAS EMULADOR FIREBASE (LOCAL)
+
+👉 Esto es IMPORTANTÍSIMO
+
+Si usabas:
+
+'connectFirestoreEmulator'(firestore, 'localhost', 8080);
+
+👉 En celular:
+
+❌ NO funciona → localhost es el celular, no tu PC
+
+✅ SOLUCIÓN
+
+Reemplaza por tu IP:
+
+connectFirestoreEmulator(firestore, '192.168.X.X', 8080);
+
+👉 (IP de tu PC)
+
+🧠 6. REVISA ERRORES EN CONSOLA
+
+Conecta el celular y ejecuta:
+
+adb logcat
+
+👉 Busca errores como:
+
+PERMISSION_DENIED
+network error
+firebase error
+🧪 7. PRUEBA RÁPIDA
+
+Agrega esto:
+
+console.log('Intentando guardar tarea');
+
+👉 Si no aparece → problema Angular
+👉 Si aparece pero no guarda → problema Firebase
+
+🚨 PROBLEMA MÁS COMÚN (TU CASO)
+
+💥 Estás usando emulator local
+💥 O reglas bloqueando
+💥 O no tienes internet permiso
